@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<style>
+		body {
+			margin: 0;
+			padding: 0;
+		}
+		</style>
+		<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+
+		<title>Canvas image</title>
+
+	</head>
+	<body>
+		<canvas class="" style="overflow:scroll; cursor: grab; cursor : -o-grab; cursor : -moz-grab; cursor : -webkit-grab;" id="myCanvas" width="683" height="384"></canvas>
+		<button onclick="zoomIn()">+</button>
+		<button onclick="zoomOut()">-</button>
+		<button onclick="setFlag()">Select ROI</button>
+		<button onclick="submitROI()">Submit ROI</button>
+		<script>
+			
+			var selectionFlag = false;
+			var ResolutionX = 1366;
+			var ResolutionY = 768;
+			var canvas = document.getElementById('myCanvas');
+			var context = canvas.getContext('2d');
+			var canvasOffset = $("#myCanvas").offset();
+			var offsetX = canvasOffset.left;
+			var offsetY = canvasOffset.top;
+			var canvasWidth = canvas.width;
+			var canvasHeight = canvas.height;
+			var isDragging= false;
+			var currentX = offsetX;
+			var currentY = offsetY;
+			var mouseDownX;
+			var mouseDownY;
+			var zoomX = ResolutionX;
+			var zoomY = ResolutionY;
+			var canvasSizeX = ResolutionX; 
+			var canvasSizeY = ResolutionY;
+			var img = new Image();
+			var sx1=0,sy1=0,sx2=0,sy2=0;
+			var x1=0,y1=0,x2=0,y2=0;
+			img.onload = function() {
+			  context.drawImage(img,currentX,currentY,zoomX,zoomY,0,0,canvasWidth,canvasHeight);
+			};
+			img.src = 'img.png';
+			function setFlag(){
+				selectionFlag = true;
+			}
+			function submitROI(){
+				selectionFlag = false;
+			}
+
+
+			function handleMouseDown(e){
+				canMouseX = parseInt(e.clientX-offsetX);
+				canMouseY = parseInt(e.clientY-offsetY);
+			  // set the drag flag
+				mouseDownX = canMouseX;
+				mouseDownY = canMouseY;
+				if(selectionFlag == false)
+				{
+					isDragging = true;
+				}
+				if(selectionFlag)
+				{
+					x1 = canMouseX;
+					y1 = canMouseY	
+					sx1 = scaledX;
+					sy1 = scaledY;
+				}
+				
+			}
+
+			function handleMouseUp(e){
+				canMouseX=parseInt(e.clientX-offsetX);
+				canMouseY=parseInt(e.clientY-offsetY);
+				mouseDownX = canMouseX;
+				mouseDownY = canMouseY;
+			  // clear the drag flag
+				isDragging=false;
+				if(selectionFlag == true){
+					x2 = canMouseX;
+					y2 = canMouseY;
+					sx2 = scaledX;
+					sy2 = scaledY;
+				}
+
+
+			}
+
+			function handleMouseOut(e){
+			  //canMouseX=parseInt(e.clientX-offsetX);
+			  //canMouseY=parseInt(e.clientY-offsetY);
+			  // user has left the canvas, so clear the drag flag
+				isDragging=false;
+			}
+
+			function handleMouseMove(e){
+				canvasPosX =  (e.clientX ) * (ResolutionX/canvasWidth) + currentX;
+				canvasPosY =  (e.clientY ) * (ResolutionY/canvasHeight) + currentY;
+				scaledX = (ResolutionX/canvasSizeX) * canvasPosX;
+				scaledY = (ResolutionY/canvasSizeY) * canvasPosY; 
+				// console.log("#######################")
+				// console.log("canvasPos")
+				// console.log(canvasPosX);
+				// console.log(canvasPosY);
+				// console.log("_______________________");
+				// console.log("scaled")
+				// console.log(scaledX)
+				// console.log(scaledY)
+				// console.log("_______________________");
+				// console.log("canvasSize")
+				// console.log(canvasSizeX)
+				// console.log(canvasSizeY)
+				// console.log("_______________________");
+				// console.log("x1,y1,x2,y2")
+				// console.log(String(sx1)+" "+ String(sy1)+ " " + String(sx2)+" "+ String(sy2))
+				// console.log(String(x1)+" "+ String(y1)+ " " + String(x2)+" "+ String(y2))
+				// console.log("#######################")
+
+
+			  // if the drag flag is set, clear the canvas and draw the image
+				if(isDragging){
+					canMouseX=parseInt(e.clientX-offsetX);
+					canMouseY=parseInt(e.clientY-offsetY);
+					currentX += -1*(canMouseX - mouseDownX);
+					currentY += -1*(canMouseY - mouseDownY);
+					context.clearRect(0,0,canvasWidth,canvasHeight);
+					
+					//context.drawImage(img,currentX,currentY,canvasWidth,canvasHeight,0,0,zoomX,zoomY);
+					context.drawImage(img,currentX,currentY,zoomX,zoomY,0,0,canvasWidth,canvasHeight);
+				}
+				mouseDownX = canMouseX;
+				mouseDownY = canMouseY;
+				if (selectionFlag == false)
+				{
+					context.globalAlpha = 0.2;
+					context.rect(x1,y1,(x2-x1),(y2-y1))
+					context.fill()
+					context.globalAlpha = 1;
+				}
+			}
+
+			function zoomIn(){
+				
+				context.clearRect(0,0,canvasWidth,canvasHeight);
+				zoomX = zoomX - Math.round(ResolutionX*0.05);
+				zoomY = zoomY - Math.round(ResolutionY*0.05);
+				canvasSizeX = canvasSizeX + Math.round(ResolutionX*0.05);
+				canvasSizeY = canvasSizeY + Math.round(ResolutionY*0.05);
+				context.drawImage(img,currentX,currentY,zoomX,zoomY,0,0,canvasWidth,canvasHeight);
+				//context.drawImage(img,currentX,currentY,canvasWidth,canvasHeight,0,0,zoomX,zoomY);
+			}
+
+			function zoomOut(){
+				context.clearRect(0,0,canvasWidth,canvasHeight);
+				zoomX = zoomX + Math.round(ResolutionX*0.05);
+				zoomY = zoomY + Math.round(ResolutionY*0.05);
+				canvasSizeX = canvasSizeX - Math.round(ResolutionX*0.05);
+				canvasSizeY = canvasSizeY - Math.round(ResolutionY*0.05);
+				context.drawImage(img,currentX,currentY,zoomX,zoomY,0,0,canvasWidth,canvasHeight);
+				//context.drawImage(img,currentX,currentY,canvasWidth,canvasHeight,0,0,zoomX,zoomY);
+				
+			}
+			$("#myCanvas").mousedown(function(e){handleMouseDown(e);});
+			$("#myCanvas").mousemove(function(e){handleMouseMove(e);});
+			$("#myCanvas").mouseup(function(e){handleMouseUp(e);});
+			$("#myCanvas").mouseout(function(e){handleMouseOut(e);});
+		</script>
+	</body>
+</html>
