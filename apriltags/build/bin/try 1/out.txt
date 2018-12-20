@@ -1,0 +1,12 @@
+Processing image
+4 tags detected:
+  Id: 1 (Hamming: 0)  distance=0.142526m, x=0.0133714, y=-0.104326, z=0.0961824, yaw=-0.00477347, pitch=0.000384302, roll=0.00245527
+  Id: 0 (Hamming: 0)  distance=0.143184m, x=0.0132479, y=0.105183, z=0.0962422, yaw=0.00357856, pitch=-0.00125399, roll=0.00216193
+  Id: 24 (Hamming: 0)  distance=0.154202m, x=0.0136644, y=0.105208, z=-0.111905, yaw=-0.0012664, pitch=-0.000135736, roll=0.00301112
+  Id: 25 (Hamming: 0)  distance=0.152803m, x=0.0137479, y=-0.103394, z=-0.111667, yaw=-0.000672, pitch=-0.000923287, roll=0.00293195
+Processing image
+4 tags detected:
+  Id: 1 (Hamming: 0)  distance=0.142526m, x=0.0133714, y=-0.104326, z=0.0961824, yaw=-0.00477347, pitch=0.000384302, roll=0.00245527
+  Id: 0 (Hamming: 0)  distance=0.143184m, x=0.0132479, y=0.105183, z=0.0962422, yaw=0.00357856, pitch=-0.00125399, roll=0.00216193
+  Id: 24 (Hamming: 0)  distance=0.154202m, x=0.0136644, y=0.105208, z=-0.111905, yaw=-0.0012664, pitch=-0.000135736, roll=0.00301112
+  Id: 25 (Hamming: 0)  distance=0.152803m, x=0.0137479, y=-0.103394, z=-0.111667, yaw=-0.000672, pitch=-0.000923287, roll=0.00293195

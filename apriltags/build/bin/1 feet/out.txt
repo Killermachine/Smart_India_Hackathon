@@ -1,0 +1,7 @@
+1 Feet
+
+Processing image
+0 tags detected:
+Processing image
+1 tags detected:
+  Id: 0 (Hamming: 0)  distance=0.0947224m, x=0.0136252, y=-0.00181194, z=-0.0937198, yaw=-0.00270445, pitch=-0.00152043, roll=0.0011655
